@@ -13,7 +13,8 @@ if config["headers"]
     if Regexp.compile("^#{NginxConfigUtil.to_regex(route)}$") =~ uri
       header_hash.each do |key, value|
         # value must be a string
-        req.headers_out[key] = value.to_s
+        h = value.to_s
+        req.headers_out[key] = "#{NginxConfigUtil.interpolate(h, ENV)}"
       end
       break
     end
